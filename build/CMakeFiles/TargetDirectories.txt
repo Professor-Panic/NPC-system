@@ -1,0 +1,6 @@
+C:/Users/Professor Panic/Documents/Coding_Projects/c++ projects/Raylib_Projects/NPC system/build/CMakeFiles/NPC_System.dir
+C:/Users/Professor Panic/Documents/Coding_Projects/c++ projects/Raylib_Projects/NPC system/build/CMakeFiles/dist.dir
+C:/Users/Professor Panic/Documents/Coding_Projects/c++ projects/Raylib_Projects/NPC system/build/CMakeFiles/run.dir
+C:/Users/Professor Panic/Documents/Coding_Projects/c++ projects/Raylib_Projects/NPC system/build/CMakeFiles/run-dist.dir
+C:/Users/Professor Panic/Documents/Coding_Projects/c++ projects/Raylib_Projects/NPC system/build/CMakeFiles/edit_cache.dir
+C:/Users/Professor Panic/Documents/Coding_Projects/c++ projects/Raylib_Projects/NPC system/build/CMakeFiles/rebuild_cache.dir
