@@ -154,6 +154,18 @@ CMakeFiles/NPC_System.dir/src/main.cpp.obj: \
  C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stdarg.h \
  C:/msys64/mingw64/include/stdarg.h \
  C:/msys64/mingw64/include/_mingw_stdarg.h \
+ C:/msys64/mingw64/include/c++/15.2.0/vector \
+ C:/msys64/mingw64/include/c++/15.2.0/bits/stl_uninitialized.h \
+ C:/msys64/mingw64/include/c++/15.2.0/bits/stl_vector.h \
+ C:/msys64/mingw64/include/c++/15.2.0/bits/stl_bvector.h \
+ C:/msys64/mingw64/include/c++/15.2.0/bits/vector.tcc \
+ C:/Users/PROFES~1/DOCUME~1/CODING~1/C__PRO~1/RAYLIB~1/NPCSYS~1/include/character_stuff.h \
+ C:/Users/PROFES~1/DOCUME~1/CODING~1/C__PRO~1/RAYLIB~1/NPCSYS~1/include/helpers.h \
+ C:/msys64/mingw64/include/c++/15.2.0/fstream \
+ C:/msys64/mingw64/include/c++/15.2.0/bits/codecvt.h \
+ C:/msys64/mingw64/include/c++/15.2.0/x86_64-w64-mingw32/bits/basic_file.h \
+ C:/msys64/mingw64/include/c++/15.2.0/x86_64-w64-mingw32/bits/c++io.h \
+ C:/msys64/mingw64/include/c++/15.2.0/bits/fstream.tcc \
  C:/Users/PROFES~1/DOCUME~1/CODING~1/C__PRO~1/RAYLIB~1/NPCSYS~1/include/nlohmann/json.hpp \
  C:/msys64/mingw64/include/c++/15.2.0/algorithm \
  C:/msys64/mingw64/include/c++/15.2.0/bits/stl_algo.h \
@@ -175,11 +187,6 @@ CMakeFiles/NPC_System.dir/src/main.cpp.obj: \
  C:/msys64/mingw64/include/c++/15.2.0/bits/enable_special_members.h \
  C:/msys64/mingw64/include/c++/15.2.0/bits/node_handle.h \
  C:/msys64/mingw64/include/c++/15.2.0/bits/erase_if.h \
- C:/msys64/mingw64/include/c++/15.2.0/vector \
- C:/msys64/mingw64/include/c++/15.2.0/bits/stl_uninitialized.h \
- C:/msys64/mingw64/include/c++/15.2.0/bits/stl_vector.h \
- C:/msys64/mingw64/include/c++/15.2.0/bits/stl_bvector.h \
- C:/msys64/mingw64/include/c++/15.2.0/bits/vector.tcc \
  C:/msys64/mingw64/include/c++/15.2.0/array \
  C:/msys64/mingw64/include/c++/15.2.0/iterator \
  C:/msys64/mingw64/include/c++/15.2.0/bits/stream_iterator.h \
@@ -254,7 +261,6 @@ CMakeFiles/NPC_System.dir/src/main.cpp.obj: \
  C:/msys64/mingw64/include/c++/15.2.0/bits/locale_facets_nonio.h \
  C:/msys64/mingw64/include/c++/15.2.0/x86_64-w64-mingw32/bits/time_members.h \
  C:/msys64/mingw64/include/c++/15.2.0/x86_64-w64-mingw32/bits/messages_members.h \
- C:/msys64/mingw64/include/c++/15.2.0/bits/codecvt.h \
  C:/msys64/mingw64/include/c++/15.2.0/bits/locale_facets_nonio.tcc \
  C:/msys64/mingw64/include/c++/15.2.0/bits/locale_conv.h \
  C:/msys64/mingw64/include/c++/15.2.0/iomanip \
@@ -271,7 +277,12 @@ CMakeFiles/NPC_System.dir/src/main.cpp.obj: \
  C:/msys64/mingw64/include/c++/15.2.0/bits/stl_numeric.h \
  C:/msys64/mingw64/include/c++/15.2.0/pstl/glue_numeric_defs.h \
  C:/msys64/mingw64/include/c++/15.2.0/any \
- C:/msys64/mingw64/include/c++/15.2.0/fstream \
- C:/msys64/mingw64/include/c++/15.2.0/x86_64-w64-mingw32/bits/basic_file.h \
- C:/msys64/mingw64/include/c++/15.2.0/x86_64-w64-mingw32/bits/c++io.h \
- C:/msys64/mingw64/include/c++/15.2.0/bits/fstream.tcc
+ C:/msys64/mingw64/include/c++/15.2.0/random \
+ C:/msys64/mingw64/include/c++/15.2.0/bits/random.h \
+ C:/msys64/mingw64/include/c++/15.2.0/x86_64-w64-mingw32/bits/opt_random.h \
+ C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/pmmintrin.h \
+ C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/emmintrin.h \
+ C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/xmmintrin.h \
+ C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/mmintrin.h \
+ C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/mwaitintrin.h \
+ C:/msys64/mingw64/include/c++/15.2.0/bits/random.tcc
