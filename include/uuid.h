@@ -144,7 +144,6 @@ template<typename T>
 class RecordStore
 {
 private:
-
     std::unordered_map<Uuid, T> records;
 
 public:
@@ -166,38 +165,114 @@ public:
         return id;
     }
 
-    // Retrieve record
+    // Retrieve record by UUID.
     T* Get(Uuid id)
     {
         auto it = records.find(id);
-
-        return it == records.end()
-            ? nullptr
-            : &it->second;
+        return it == records.end() ? nullptr : &it->second;
     }
 
     const T* Get(Uuid id) const
     {
         auto it = records.find(id);
-
-        return it == records.end()
-            ? nullptr
-            : &it->second;
+        return it == records.end() ? nullptr : &it->second;
     }
 
-    // Check existence
+    // Find the first record matching a predicate.
+    template<typename Predicate>
+    T* Find(Predicate predicate)
+    {
+        for (auto& [id, record] : records)
+        {
+            if (predicate(record))
+                return &record;
+        }
+
+        return nullptr;
+    }
+
+    template<typename Predicate>
+    const T* Find(Predicate predicate) const
+    {
+        for (const auto& [id, record] : records)
+        {
+            if (predicate(record))
+                return &record;
+        }
+
+        return nullptr;
+    }
+
+    // Find all records matching a predicate.
+    template<typename Predicate>
+    std::vector<T*> FindAll(Predicate predicate)
+    {
+        std::vector<T*> result;
+
+        for (auto& [id, record] : records)
+        {
+            if (predicate(record))
+                result.push_back(&record);
+        }
+
+        return result;
+    }
+
+    template<typename Predicate>
+    std::vector<const T*> FindAll(Predicate predicate) const
+    {
+        std::vector<const T*> result;
+
+        for (const auto& [id, record] : records)
+        {
+            if (predicate(record))
+                result.push_back(&record);
+        }
+
+        return result;
+    }
+
+    // Check whether any record matches.
+    template<typename Predicate>
+    bool Any(Predicate predicate) const
+    {
+        for (const auto& [id, record] : records)
+        {
+            if (predicate(record))
+                return true;
+        }
+
+        return false;
+    }
+
+    // Count matching records.
+    template<typename Predicate>
+    std::size_t Count(Predicate predicate) const
+    {
+        std::size_t count = 0;
+
+        for (const auto& [id, record] : records)
+        {
+            if (predicate(record))
+                ++count;
+        }
+
+        return count;
+    }
+
+    // Check existence by UUID.
     bool Contains(Uuid id) const
     {
         return records.contains(id);
     }
 
-    // Remove record
+    // Remove record by UUID.
     bool Remove(Uuid id)
     {
         return records.erase(id) > 0;
     }
 
-    // Number of records
+    // Number of records.
     std::size_t Size() const
     {
         return records.size();
@@ -213,7 +288,7 @@ public:
         records.clear();
     }
 
-    // Iteration
+    // Iteration.
     auto begin() { return records.begin(); }
     auto end() { return records.end(); }
 
