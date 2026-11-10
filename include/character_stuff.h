@@ -10,30 +10,6 @@
 #include "world_time.h"
 
 // ============================================================
-// DATE HELPERS
-// ============================================================
-
-// Adds a number of months using the 30-day, 12-month calendar.
-inline WorldTime AddMonths(WorldTime date, int months)
-{
-    long long totalMonths =
-        static_cast<long long>(date.year) * 12 +
-        (date.month - 1) + months;
-
-    date.year = static_cast<int>(totalMonths / 12);
-    date.month = static_cast<int>(totalMonths % 12) + 1;
-
-    return date;
-}
-
-// Subtracts years while preserving the day and month.
-inline WorldTime SubtractYears(WorldTime date, int years)
-{
-    date.year -= years;
-    return date;
-}
-
-// ============================================================
 //  1: STRUCTS AND CLASSES
 // ============================================================
 
@@ -43,6 +19,15 @@ struct CharacterSkills {
     int stewardship = 0;
     int diplomacy = 0;
     int knowledge = 0;
+};
+struct CharacterPersonality{
+    float ambitious = 0.0f;
+    float chaste    = 0.0f;  // -1 lustful, +1 Chaste
+    float sociable  = 0.0f;  // -1 reclusive, +1 gregarious
+    float honorable = 0.0f;  // -1 treacherous, +1 Just
+    float greedy    = 0.0f;  // -1 generous, +1 avaricious
+    float vengeful  = 0.0f;  // -1 forgiving, +1 grudge-holding
+    float brave     = 0.0f;  // -1 cowardly, +1 bold
 };
 
 struct Character {
@@ -60,7 +45,7 @@ struct Character {
     WorldTime deathDate{};
 
     CharacterSkills skills;
-
+    CharacterPersonality personality;
     Character(
         std::string name,
         int age,
@@ -394,9 +379,54 @@ inline void ProcessWidowhood(
         }
     }
 }
+// ============================================================
+//  3: CHARACTER GENERATION AND SKILLS
+// ============================================================
+inline CharacterSkills GenerateSkills()
+{
+    CharacterSkills skills;
+
+    skills.martial =
+        GetRandomIntValueBiased(0, 3, 0.2f);
+
+    skills.intrigue =
+        GetRandomIntValueBiased(0, 3, 0.2f);
+
+    skills.stewardship =
+        GetRandomIntValueBiased(0, 3, 0.2f);
+
+    skills.diplomacy =
+        GetRandomIntValueBiased(0, 3, 0.2f);
+
+    skills.knowledge =
+        GetRandomIntValueBiased(0, 3, 0.2f);
+
+    return skills;
+}
+inline CharacterPersonality GeneratePersonality()
+{
+    CharacterPersonality personality;
+
+    personality.ambitious =GetRandomFloatValue(-1.0f,1.0f);
+
+    personality.brave =GetRandomFloatValue(-1.0f,1.0f);
+
+    personality.chaste =GetRandomFloatValue(-1.0f,1.0f);
+
+    personality.greedy =GetRandomFloatValue(-1.0f,1.0f);
+
+    personality.honorable =GetRandomFloatValue(-1.0f,1.0f);
+    
+    personality.sociable =GetRandomFloatValue(-1.0f,1.0f);
+    
+    personality.vengeful =GetRandomFloatValue(-1.0f,1.0f);
+    
+
+    return personality;
+}
 
 // ============================================================
-//  3: CHARACTER CREATION
+//  4: CHARACTER CREATION
 // ============================================================
 
 inline Character CreateCharacter(
@@ -430,6 +460,8 @@ inline Character CreateCharacter(
 
     WorldTime birthDate = SubtractYears(currentDate, age);
     Character c{name, age, gender, birthDate};
+    c.skills=GenerateSkills();
+    c.personality=GeneratePersonality();
     c.id = characters.Insert(c);
     return c;
 }
@@ -491,7 +523,6 @@ inline Uuid CreateChildBetween(
         birthDate,
         0
     );
-
     // CreateCharacter already inserted the child and set its id.
     const Uuid childId = child.id;
 
@@ -506,11 +537,6 @@ inline Uuid CreateChildBetween(
 
     return childId;
 }
-
-// ============================================================
-//  4: CHARACTER GENERATION AND SKILLS
-// ============================================================
-
 inline void CreateCharacters(
     RecordStore<Character>& characters,
     const json& names,
@@ -551,38 +577,16 @@ inline void CreateCharacters(
 
         WorldTime birthDate =
             SubtractYears(currentDate, age);
-
-        characters.Insert({
+        Character c={
             name,
             age,
             gender,
-            birthDate}
-        );
+            birthDate};
+        c.skills=GenerateSkills();
+        c.personality=GeneratePersonality();
+        characters.Insert(c);
     }
 }
-
-inline CharacterSkills GenerateSkills()
-{
-    CharacterSkills skills;
-
-    skills.martial =
-        GetRandomIntValueBiased(0, 3, 0.2f);
-
-    skills.intrigue =
-        GetRandomIntValueBiased(0, 3, 0.2f);
-
-    skills.stewardship =
-        GetRandomIntValueBiased(0, 3, 0.2f);
-
-    skills.diplomacy =
-        GetRandomIntValueBiased(0, 3, 0.2f);
-
-    skills.knowledge =
-        GetRandomIntValueBiased(0, 3, 0.2f);
-
-    return skills;
-}
-
 // ============================================================
 //  5: OPINIONS AND CHARACTER PROGRESSION
 // ============================================================

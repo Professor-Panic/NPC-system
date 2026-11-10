@@ -2,9 +2,9 @@
 #include <algorithm>
 #include <cmath>
 #include <initializer_list>
+#include <span>
 #include "uuid.h"
 #include "helpers.h"
-#include <span>
 inline float Saturate(float t){return std::clamp(t,0.0f,1.0f);}
 inline float Normalise(float value, float min, float max)
 {
@@ -24,6 +24,7 @@ inline float Logistic(float t,float steepness,float midpoint){
     return 1 / (1 + std::exp(-steepness * (Saturate(t) - midpoint)));
 }
 inline float PeakTriangle(float t,float centre,float width){
+    if(width<=0.0) return 0.0f;
     t=1 - std::abs(Saturate(t) - centre)/ width;
     return std::max(0.0f,t);
 }

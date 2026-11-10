@@ -24,3 +24,21 @@ inline bool IsDateBeforeOrEqual(
 {
     return GetTotalDays(a) <= GetTotalDays(b);
 }
+inline WorldTime AddMonths(WorldTime date, int months)
+{
+    long long totalMonths =
+        static_cast<long long>(date.year) * 12 +
+        (date.month - 1) + months;
+
+    date.year = static_cast<int>(totalMonths / 12);
+    date.month = static_cast<int>(totalMonths % 12) + 1;
+
+    return date;
+}
+
+// Subtracts years while preserving the day and month.
+inline WorldTime SubtractYears(WorldTime date, int years)
+{
+    date.year -= years;
+    return date;
+}
