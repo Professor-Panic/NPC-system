@@ -1,4 +1,3 @@
-
 #pragma once
 
 #include <algorithm>
@@ -115,6 +114,14 @@ struct CharaRelations {
     IdRef<Character> chara_b;
     SocialRel social_relation = SocialRel::Acquaintance;
 };
+
+// Opinions are directional: A's opinion of B != B's opinion of A.
+using OpinionStore =
+    RecordStore<CharaOpinions, PairMode::Directed>;
+
+// Social relations are mutual: A and B are friends/rivals together.
+using SocialRelationStore =
+    RecordStore<CharaRelations, PairMode::Symmetric>;
 
 struct FamilyRelation {
     Uuid id{};
@@ -422,8 +429,8 @@ inline Character CreateCharacter(
         namesList[nameIndex].get<std::string>();
 
     WorldTime birthDate = SubtractYears(currentDate, age);
-    Character c=Character{name, age, gender, birthDate};
-    characters.Insert(c);
+    Character c{name, age, gender, birthDate};
+    c.id = characters.Insert(c);
     return c;
 }
 
@@ -485,7 +492,8 @@ inline Uuid CreateChildBetween(
         0
     );
 
-    const Uuid childId = characters.Insert(child);
+    // CreateCharacter already inserted the child and set its id.
+    const Uuid childId = child.id;
 
     FamilyRelation relation;
     relation.character = {mother.id};
@@ -504,7 +512,7 @@ inline Uuid CreateChildBetween(
 // ============================================================
 
 inline void CreateCharacters(
-    RecordStore<Character>characters,
+    RecordStore<Character>& characters,
     const json& names,
     const std::string& origin,
     int gender,
@@ -579,23 +587,47 @@ inline CharacterSkills GenerateSkills()
 //  5: OPINIONS AND CHARACTER PROGRESSION
 // ============================================================
 
-inline void CreateCharaRelations(
-    RecordStore<Character>& characters,
-    RecordStore<CharaOpinions>& opinions)
+// What `from` thinks of `to`. Strangers have no record yet, so
+// they read as neutral (0) without anything being created.
+inline int GetOpinion(
+    const OpinionStore& opinions,
+    Uuid from,
+    Uuid to)
 {
-    for (const auto& [idA, charaA] : characters) {
-        for (const auto& [idB, charaB] : characters) {
-            if (idA == idB)
-                continue;
+    const CharaOpinions* record = opinions.GetPair(from, to);
+    return record ? record->opinion : 0;
+}
 
-            CharaOpinions relation;
-            relation.chara_a = {idA};
-            relation.chara_b = {idB};
-            relation.opinion = GetRandomIntValue(-50, 100);
+// Changes `from`'s opinion of `to`, creating the record on first
+// interaction. Only `from`'s side changes; `to`'s opinion of
+// `from` is a separate record.
+inline void ModifyOpinion(
+    OpinionStore& opinions,
+    Uuid from,
+    Uuid to,
+    int delta)
+{
+    CharaOpinions& record = opinions.GetOrCreate(from, to);
+    record.opinion = std::clamp(record.opinion + delta, -100, 100);
+}
 
-            opinions.Insert(relation);
-        }
-    }
+// Acquaintance unless a record says otherwise. Order doesn't matter.
+inline SocialRel GetSocialRelation(
+    const SocialRelationStore& relations,
+    Uuid a,
+    Uuid b)
+{
+    const CharaRelations* record = relations.GetPair(a, b);
+    return record ? record->social_relation : SocialRel::Acquaintance;
+}
+
+inline void SetSocialRelation(
+    SocialRelationStore& relations,
+    Uuid a,
+    Uuid b,
+    SocialRel relation)
+{
+    relations.GetOrCreate(a, b).social_relation = relation;
 }
 
 inline void AdvanceCharacterYear(
@@ -609,16 +641,15 @@ inline void AdvanceCharacterYear(
 
 inline float GetCharaDeathProbability(
     Character& character,
-    float ageInfluence = 0.01f,
+    float ageInfluence = 0.55f,
     float ageExponent = 2.0f,
-    float healthOffset = 0.01f)
+    float healthOffset = 0.00001f)
 {
     if (character.lifespan <= 0)
         return 1.0f;
 
     character.health =
         std::clamp(character.health, 0, 100);
-
     const float ageRatio =
         static_cast<float>(character.age) /
         static_cast<float>(character.lifespan);

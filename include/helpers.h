@@ -1,10 +1,14 @@
 #pragma once
-#include "fstream"
+#include <fstream>
+#include <stdexcept>
+#include <string>
 #include "nlohmann/json.hpp"
 #include <random>
 #include <algorithm>
 #include <cmath>
+#include "rng.h"
 using json = nlohmann::json;
+
 inline json LoadJson(const std::string& path)
 {
     std::ifstream file(path);
@@ -20,23 +24,19 @@ inline json LoadJson(const std::string& path)
 
 inline int GetRandomIntValue(int min, int max)
 {
-    static std::mt19937 gen{ std::random_device{}() };
-
-    return std::uniform_int_distribution<int>(min, max)(gen);
+    return std::uniform_int_distribution<int>(min, max)(Rng());
 }
-inline int GetRandomFloatValue(float min, float max)
+
+inline float GetRandomFloatValue(float min, float max)
 {
-    static std::mt19937 gen{ std::random_device{}() };
-
-    return std::uniform_real_distribution<float>(min, max)(gen);
+    return std::uniform_real_distribution<float>(min, max)(Rng());
 }
+
 inline int GetRandomIntValueBiased(int min, int max, float bias = 0.5f)
 {
-    static std::mt19937 gen{ std::random_device{}() };
-
     bias = std::clamp(bias, 0.0f, 1.0f);
 
-    float random = std::uniform_real_distribution<float>(0.0f, 1.0f)(gen);
+    float random = std::uniform_real_distribution<float>(0.0f, 1.0f)(Rng());
 
     float exponent = bias < 0.5f
         ? 1.0f / (1.0f + (0.5f - bias) * 18.0f)

@@ -13,8 +13,8 @@ public:
     RecordStore<Pregnancy> pregnancies;
     RecordStore<FamilyRelation> family_relations;
     RecordStore<MarriageRelation> marriage_relations;
-    RecordStore<CharaRelations> social_relastions;
-    RecordStore<CharaOpinions> opinions;
+    SocialRelationStore social_relations;
+    OpinionStore opinions;
 
     const json& names;
     const json& settings;
