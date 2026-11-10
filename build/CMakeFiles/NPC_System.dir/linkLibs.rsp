@@ -1,1 +1,0 @@
- C:/Libraries/rui/lib/librui.a C:/box3d/lib/libbox3d.a C:/raylib/raylib/src/libraylib.a -lgdi32 -lole32 -lcomdlg32 -lopengl32 -lshell32 -lwinmm -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 

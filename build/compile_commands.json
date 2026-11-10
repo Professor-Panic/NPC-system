@@ -1,8 +1,0 @@
-[
-{
-  "directory": "C:/Users/Professor Panic/Documents/Coding_Projects/c++ projects/Raylib_Projects/NPC system/build",
-  "command": "C:\\msys64\\mingw64\\bin\\g++.exe  @CMakeFiles/NPC_System.dir/includes_CXX.rsp -g -std=gnu++20 -w -Og -g1 -fno-var-tracking -o CMakeFiles\\NPC_System.dir\\src\\main.cpp.obj -c \"C:\\Users\\Professor Panic\\Documents\\Coding_Projects\\c++ projects\\Raylib_Projects\\NPC system\\src\\main.cpp\"",
-  "file": "C:/Users/Professor Panic/Documents/Coding_Projects/c++ projects/Raylib_Projects/NPC system/src/main.cpp",
-  "output": "CMakeFiles/NPC_System.dir/src/main.cpp.obj"
-}
-]
